@@ -73502,7 +73502,7 @@ AFRAME.registerComponent('arjs-anchor',
 		changeMatrixMode:
 		{
 			type: 'string',
-			default: 'modelViewMatrix',
+			default: 'cameraTransformMatrix',
 		},
 		minConfidence:
 		{
