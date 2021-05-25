@@ -70932,7 +70932,7 @@ ARjs.Profile.prototype.reset = function ()
 	this.defaultMarkerParameters = {
 		type: 'pattern',
 		patternUrl: THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
-		changeMatrixMode: 'modelViewMatrix',
+		changeMatrixMode: 'cameraTransformMatrix',
 	}
 	return this
 };
@@ -73598,7 +73598,7 @@ AFRAME.registerComponent('arjs-anchor',
 			{
 				markerParameters = {
 					type: _this.data.type,
-					changeMatrixMode: 'modelViewMatrix',
+					changeMatrixMode: 'cameraTransformMatrix',
 					barcodeValue: _this.data.barcodeValue,
 					markersAreaEnabled: false
 				}
