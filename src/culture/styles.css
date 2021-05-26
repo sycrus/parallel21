@@ -1,0 +1,84 @@
+#splash {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  width: 200px;
+  height: 200px;
+
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 0.25rem solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  animation: spin 1s infinite linear;
+}
+
+.centered{
+    z-index: 1;
+    position: relative;
+    display: inline;
+    height: 100%;
+    width: 100%;
+    margin: 0px auto;
+    left: 0px;
+    bottom: 20px;
+}
+
+
+.instructions {
+    position: fixed;
+    top: 5%;
+    font-size: 1.25em;
+    color: white;
+    z-index: 999999;
+}
+
+input.button-prev{
+    background-image: url(https://rawcdn.githack.com/sycrus/parallel21/bf712c42941d49fa0d17be932f54ef3aa5131367/assets/branding/ui/prev.png); /* 16px x 16px */
+    background-color: transparent;
+    background-repeat: no-repeat;  
+    background-position: 0px 0px; 
+    border: none;          
+    cursor: pointer;        
+    width: 64px; 
+    height: 44px;         
+    vertical-align: middle; /* align the text vertically centered */
+    float: left;
+    left: 20px;
+  
+}
+
+input.button-next{
+    background-image: url(https://rawcdn.githack.com/sycrus/parallel21/bf712c42941d49fa0d17be932f54ef3aa5131367/assets/branding/ui/next.png); /* 16px x 16px */
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    width: 64px; 
+    height: 44px;           /* make this the size of your image */
+    vertical-align: middle; /* align the text vertically centered */
+  float:right;
+  right: 20px;
+}

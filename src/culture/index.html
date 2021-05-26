@@ -1,0 +1,1306 @@
+<html>
+  <head lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js" crossorigin="anonymous"></script>
+    <!--AR.js Marker Tracking -->
+    <script src="https://rawcdn.githack.com/sycrus/parallel21/45f8ae862c28346bc3f813713773bd3ef0d151f4/src/aframe-ar.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <script src="/aframe-animation-timeline-component.js"></script>
+    <script src="/aframe-text-geometry-component.min.js"></script>
+
+    <script src="/data.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/cursor.js" defer></script>
+    
+  </head>
+  
+  <body  style="margin : 0px; overflow: hidden;">
+<!--     <a-scene id="scene" embedded artoolkit manager vr-mode-ui="enabled: false;" arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; debugUIEnabled: false;"> -->
+  <a-scene id="scene" embedded artoolkit manager vr-mode-ui="enabled: false;" arjs="sourceType: webcam; sourceWidth:1280; sourceHeight: 960; patternRatio: 0.7; debugUIEnabled: false; ">
+
+      <a-assets> 
+        <!-- Cat files -->
+        <img id="catGif" src="https://rawcdn.githack.com/sycrus/parallel21/f7e83c9ff17bff1f0f0f1c60cd063e63976e3350/assets/branding/cat_animations/culture.gif" crossorigin="anonymous" preload="auto">
+        <img id="culture" src="https://rawcdn.githack.com/sycrus/parallel21/1e8767fb40e09bcd470071e8e375a9a77754945b/assets/postcards/culture.png" crossorigin="anonymous">
+        
+        <!-- Layers -->
+        <img id="layer1" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-01.png" crossorigin="anonymous" preload="auto">
+        <img id="layer2" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-02.png" crossorigin="anonymous" preload="auto">
+        <img id="layer3" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-03.png" crossorigin="anonymous" preload="auto">
+        <img id="layer4" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-04.png" crossorigin="anonymous" preload="auto">
+        <img id="layer5" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-05.png" crossorigin="anonymous" preload="auto">
+        <img id="layer6" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-06.png" crossorigin="anonymous" preload="auto">
+        <img id="layer7" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-07.png" crossorigin="anonymous" preload="auto">
+        <img id="layer8" src="https://rawcdn.githack.com/sycrus/parallel21/8f298c6657354a70809e889a982371cd463d2a80/assets/branding/layers/Pixel layers-08.png" crossorigin="anonymous" preload="auto">
+        
+        <!-- //Culture studies:  Terri, Kennis, May, Chel -->
+        <!-- Project Thumbnails -->
+        <img id="terri_img1" src="https://rawcdn.githack.com/sycrus/parallel21/bc822bf01369c8cadacaf061dc7b054b8e843e8c/assets/student-media/CULTURE/Terri_Wright_ARcard - Terri Wright/Terri_Wright_ProjectPic.png" crossorigin="anonymous" preload="auto">       
+        <img id="kennis_img1" src="https://rawcdn.githack.com/sycrus/parallel21/ea5eab8ab6a0d791e937becf06f7468ee6babf41/assets/student-media/CULTURE/KENNIS_CHEN/Kennis_Chen_PROJECT.jpg" crossorigin="anonymous" preload="auto">
+        <img id="may_img1" src="https://rawcdn.githack.com/sycrus/parallel21/ea5eab8ab6a0d791e937becf06f7468ee6babf41/assets/student-media/CULTURE/May_Zhou - May Zhou/May_Zhou_PROJECT_1.jpg" crossorigin="anonymous" preload="auto">
+        <img id="chel_img1" src="https://rawcdn.githack.com/sycrus/parallel21/ea5eab8ab6a0d791e937becf06f7468ee6babf41/assets/student-media/CULTURE/CHEL_CHAN/Chel_Chan_PROJECT.gif" crossorigin="anonymous" preload="auto">    
+        
+        <a-timeline id="timeline">
+          <a-timeline-group>
+            <a-timeline-animation select=".card" name="fadeout"></a-timeline-animation>  
+            <a-timeline-animation select=".fades" name="fadein"></a-timeline-animation> 
+          </a-timeline-group>
+          
+          <a-timeline-group>
+            <a-timeline-animation select=".info" name="visible"></a-timeline-animation>
+            <a-timeline-animation select=".cube" name="visible"></a-timeline-animation>
+            <a-timeline-animation select=".info" name="rise"></a-timeline-animation>
+            <a-timeline-animation select=".layers" name="split"></a-timeline-animation> 
+            <a-timeline-animation select=".cube" name="rise"></a-timeline-animation>
+            <a-timeline-animation select=".cube" name="rotate"></a-timeline-animation>    
+          </a-timeline-group>
+          
+          <!-- Splitting vertically up -->
+          <a-timeline-group>
+            <a-timeline-animation select=".info" name="split"></a-timeline-animation>
+            <a-timeline-animation select=".screen" name="split"></a-timeline-animation>  
+            <a-timeline-animation select=".screen" name="rotate"></a-timeline-animation> 
+          </a-timeline-group>
+          
+           <!-- Splitting to position-->
+          <a-timeline-group>
+            <a-timeline-animation select=".info" name="split2"></a-timeline-animation>
+            <a-timeline-animation select=".screen" name="split2"></a-timeline-animation>  
+            <a-timeline-animation select=".screen" name="rotate2"></a-timeline-animation> 
+          </a-timeline-group>
+          
+          <a-timeline-group>
+              <a-timeline-animation select=".frame" name="scale"></a-timeline-animation> 
+              <a-timeline-animation select=".frame" name="move"></a-timeline-animation> 
+              <a-timeline-animation select=".screen2" name="fadein"></a-timeline-animation> 
+              <a-timeline-animation select="#categoryText" name="fadein"></a-timeline-animation> 
+              <a-timeline-animation select=".screen3" name="move"></a-timeline-animation>
+              <a-timeline-animation select=".screen3" name="fadein"></a-timeline-animation>
+              <a-timeline-animation select=".screen3" name="scale"></a-timeline-animation>
+          </a-timeline-group>      
+        </a-timeline>
+        <a-timeline id="timelineR">
+           <a-timeline-group>
+              <a-timeline-animation select=".frame" name="scale_r"></a-timeline-animation> 
+              <a-timeline-animation select=".frame" name="move_r"></a-timeline-animation> 
+              <a-timeline-animation select=".screen2" name="fadein_r"></a-timeline-animation> 
+              <a-timeline-animation select="#categoryText" name="fadein_r"></a-timeline-animation> 
+              <a-timeline-animation select=".screen3" name="move_r"></a-timeline-animation>
+              <a-timeline-animation select=".screen3" name="fadein_r"></a-timeline-animation>
+              <a-timeline-animation select=".screen3" name="scale_r"></a-timeline-animation>
+          </a-timeline-group>   
+            <!-- Splitting to position-->
+          <a-timeline-group>
+            <a-timeline-animation select=".info" name="split2_r"></a-timeline-animation>
+            <a-timeline-animation select=".screen" name="split2_r"></a-timeline-animation>  
+            <a-timeline-animation select=".screen" name="rotate2_r"></a-timeline-animation> 
+          </a-timeline-group>
+           
+            <!-- Splitting vertically up -->
+          <a-timeline-group>
+            <a-timeline-animation select=".info" name="split_r"></a-timeline-animation>
+            <a-timeline-animation select=".screen" name="split_r"></a-timeline-animation>  
+            <a-timeline-animation select=".screen" name="rotate_r"></a-timeline-animation> 
+            
+          </a-timeline-group>
+           
+           <a-timeline-group>
+            <a-timeline-animation select=".info" name="visible_r"></a-timeline-animation>
+            <a-timeline-animation select=".cube" name="visible_r"></a-timeline-animation>
+            <a-timeline-animation select=".info" name="rise_r"></a-timeline-animation>
+            <a-timeline-animation select=".layers" name="split_r"></a-timeline-animation> 
+            <a-timeline-animation select=".cube" name="rise_r"></a-timeline-animation>
+            <a-timeline-animation select=".cube" name="rotate_r"></a-timeline-animation>    
+          </a-timeline-group>
+           
+          <a-timeline-group>
+            <a-timeline-animation select=".card" name="fadeout_r"></a-timeline-animation>  
+            <a-timeline-animation select=".fades" name="fadein_r"></a-timeline-animation> 
+          </a-timeline-group>
+                  
+        </a-timeline> 
+      </a-assets>
+    
+<!--       <a-marker id="marker" type="barcode" value="0" button-controller link-handler
+                animation-timeline__a="timeline: #timeline; direction: normal; startEvents: A"
+                animation-timeline__d="timeline: #timelineR; direction: normal; startEvents: D"
+                > -->
+       <a-marker id="marker" type="pattern" button-controller link-handler  size="0.03"
+                 smooth="true" smoothcount="10" smoothtolerance=".01" smooththreshold="5"
+                 url="https://rawcdn.githack.com/sycrus/parallel21/7efe0888db4299db1889f77e38b8ab3f44ce7d17/assets/markers/culture.patt" crossorigin="anonymous"
+                animation-timeline__cata="timeline: #timeline; direction: normal; startEvents: A"
+                animation-timeline__catd="timeline: #timelineR; direction: normal; startEvents: D"
+                >
+           
+          <a-entity id="layout" position="0 0 0" scale="2.2 2.2 2.2" visible="true">
+<!--             <a-entity id="layout" position="0 0 0" scale="1 1 1" visible="true"> -->
+            
+            <a-entity class="card" geometry="primitive:plane; width: 2.8; height:2" position="0 0 0" rotation="-90 0 0"
+                      material="src: #culture; alphaTest:0.5; opacity:1"
+                      animation__fadeout="property: components.material.material.opacity; dur: 2000; from: 1; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__fadeout_r="property: components.material.material.opacity; dur: 2000; from: 0.1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                      >
+                <a-entity class="fades" geometry="primitive: plane; width:2.8; height:2" material="color:black; alphaTest:0.5; opacity:0.1" 
+                          animation__fadein="property: components.material.material.opacity; dur: 2000; from: 0.1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__fadein_r="property: components.material.material.opacity; dur: 2000; from: 1; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          ></a-entity>
+            </a-entity>
+            
+            <!-- Layers -->
+            <a-entity position="0 0 0">
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer1; side: double; alphaTest:0.5; opacity:0.6" 
+                      animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer2; side: double; alphaTest:0.5; opacity:0.6" 
+                      animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.2; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer3; side: double; alphaTest:0.5; opacity:0.6" 
+                     animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.3; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.3; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer4; side: double; alphaTest:0.5; opacity:0.6" 
+                       animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.4; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer5; side: double; alphaTest:0.5; opacity:0.6" 
+                      animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.5; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer6; side: double; alphaTest:0.5; opacity:0.6" 
+                      animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.6; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer7; side: double; alphaTest:0.5; opacity:0.6" 
+                       animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.7; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.7; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        
+                        ></a-entity>
+              <a-entity class="layers" geometry="primitive: plane; width:2.8; height:2" rotation="-90 0 0" material="shader: flat; src:#layer8; side: double; alphaTest:0.5; opacity:0.6" 
+                       animation__split="property: object3D.position.y; dur: 2000; from: 0; to: 0.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__split_r="property: object3D.position.y; dur: 2000; from: 0.8; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        ></a-entity>  
+            </a-entity>
+        
+            <a-entity class="cube" position="0 -0.25 0" rotation="0 0 0" scale="0.6 0.6 0.6" visible="false"
+                      animation__visible="property: object3D.visible; from: false; to: true; dur: 1000; easing: easeInSine; autoplay: false"
+                      animation__rise="property: object3D.position.y; dur: 1000; from: -0.25 ; to: 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: 90; easing: easeInOutSine; loop: false; autoplay: false;"
+                      
+                      animation__visible_r="property:object3D.visible; from: true; to: false; dur: 1000; easing: easeInSine; autoplay: false"
+                      animation__rise_r="property: object3D.position.y; dur: 1000; from: 0.2; to: -0.25; easing: easeInOutSine; loop: false; autoplay: false;"
+                      animation__rotate_r="property: object3D.rotation.y; dur: 1000; from:90; to:0; easing: easeInOutSine; loop: false; autoplay: false;"
+                      >              
+              
+              <a-entity id="terriButton" class="screen" 
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.8 -0.1 -1.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2="property: object3D.rotation.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -0.8 -0.1 -1.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                  <!-- Width of Image -->
+                  <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.5; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.5; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Height of Image -->
+                  <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.75; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: 0.75; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.75; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from:  1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: -0.75; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+
+                  <a-entity id="terri_tn" class="screen2 clickable" geometry="primitive: plane; width:1; height:1.5" rotation="-90 90 180" 
+                            material="src: #terri_img1; side:double; alphaTest:0.5; opacity:0"  
+                            animation__fadein="property: components.material.material.opacity; dur: 2000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: scale; dur: 2000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__fadein_r="property: components.material.material.opacity; dur: 2000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: scale; dur: 2000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            ></a-entity>
+                
+                  <!-- Name -->
+                  <a-entity class="info" position="0 0 0" rotation="0 -90 0" scale="1 1 1" visible="false"
+                          animation__visible="property: object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 0.6 0.05 -0.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__visible_r="property: object3D.visible; from: true; to: false; dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from:  0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from:  0.6 0.05 0.2; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                        <!-- Width of Image -->
+                        <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.7 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.7 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.7 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.7 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                        <!-- Height of Image -->
+                        <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5. 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0.35; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5. 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5. 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: -0.35; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                       <!-- Content -->
+                    <a-entity scale="0.5 0.5 0.5">
+                       <a-text class="screen2" position="-0.5 0 0" rotation="-90 0 0" color="violet" scale="1.4 1.4 1.4"  width="3" anchor="left" negate="false" opacity="0"
+                                      value="Terri Wright" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                     animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                     animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                               
+                                     animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                     animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    ></a-text>              
+                    </a-entity>
+                          
+                </a-entity> <!-- Name -->
+                <!-- Title -->
+                <a-entity position="1 -0.05 0" rotation="0 -90 0" class="info" visible="false"
+                          animation__visible="property: object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"                
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.5 0.11 -0.3; easing: easeInOutSine; loop: false; autoplay: false;"
+                          
+                          animation__visible_r="property: object3D.visible; from: false; to: true; dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0; to: 0;easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: -90; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"                
+                          animation__split2_r="property: position; dur: 1000; from: -0.5 0.11 -0.3; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.2 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.2 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.2 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.2 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.6; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.6; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <a-entity scale="0.5 0.5 0.5" >
+                           <!-- Content -->
+                          <a-entity class="screen3" geometry="primitive: plane; width:1; height:1" rotation="-90 0 0" material="color: violet; side:double; alphaTest:0.5; opacity:0"  
+                                        animation__move="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                        animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                        animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 2.4 0.4 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    
+                                        animation__move_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                        animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                        animation__scale_r="property: scale; dur: 1000; from: 2.4 0.4 1 ; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    ></a-entity>
+
+
+                          <a-text id="title" class="screen2" position="-0.9 0.1 -0.05" rotation="-90 0 0" color="black" scale="3 3 3"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="InsideOUT" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__rotate="property: rotation; dur: 1000; from: -90 0 0; to: -90 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                   animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__rotate_r="property: rotation; dur: 1000; from: -90 0 0; to: -90 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>  
+                      </a-entity>
+
+                  </a-entity>
+            </a-entity> <!-- Terri -->
+              
+               <a-entity id="kennisButton" class="screen"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.position.x; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 1.4 0.1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2="property: object3D.rotation.x; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                         
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.position.x; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: 1.4 0.1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                  <!-- Width of Image -->
+                  <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 1.175; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: 1.175; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -1.175; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: -1.175; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Height of Image -->
+                  <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1 ; to: 2.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 2.35; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 2.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 2.35; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+
+                  <a-entity id="kennis_tn" class="screen2 clickable" geometry="primitive: plane; width:2.35; height:1" rotation="-90 90 180" 
+                            material="shader: flat; src: #kennis_img1; side: double; alphaTest:0.5; opacity:0" 
+                            animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0.1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Name -->
+                  <a-entity class="info"  rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.z; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.z; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.6 0.05 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__visible_r="property:object3D.visible; from: true; to: false dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.z; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.z; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: -90; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -0.6 0.05 0.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                        <!-- Width of Image -->
+                        <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.66 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.66 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.66 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.66 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                        <!-- Height of Image -->
+                        <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.33; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0.33; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.33; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: -0.33; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                    <a-entity scale="0.5 0.5 0.5">
+                      <!-- Content -->
+                           <a-text class="screen2" position="-0.52 0 0" rotation="-90 0 0" color="violet" scale="1.4 1.4 1.4"  width="3" anchor="left" negate="false" opacity="0"
+                                      value="Kennis Chen" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                     animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                     animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   
+                                     animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                     animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    ></a-text>              
+                    </a-entity>
+                         
+                </a-entity> <!-- Name -->
+                <!-- Title -->
+                <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true ; dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 0.5 0.1 -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                          
+                          animation__visible_r="property:object3D.visible; from: false; to: true ; dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: -90 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: 0.5 0.1 -0.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from:0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.1 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.1 0.5 0.5 ; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from:-0.5; to:-0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.1 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.1 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.55; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.55; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to:-0.55; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.55; to:-0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                
+                                ></a-entity>
+
+                    <a-entity scale="0.5 0.5 0.5">
+                        <a-entity class="screen3" geometry="primitive: plane; width:1; height:1" rotation="-90 0 0" material="color: violet; side:double; alphaTest:0.5; opacity:0"  
+                                    animation__move="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 2.2 0.4 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                    animation__move_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                    animation__scale_r="property: scale; dur: 1000; from: 2.81 0.4 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  ></a-entity>
+
+                       <!-- Content -->
+                         <a-text class="screen2" position="-0.8 0.1 -0.01" rotation="-90 0 0" color="black" scale="3 3 3"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="DESTINY" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0.1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                   animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1 ; to: 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>  
+                    </a-entity>
+                  
+                  </a-entity><!-- Title -->
+
+              </a-entity> <!-- Kennis -->
+              
+                  <a-entity id="mayButton" class="screen"  
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -1 0.1 1.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0;easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -1.3 0.1 0.4; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                  <!-- Width of Image -->
+                  <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.705; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: 0.705; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.705; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: -0.705; to:-0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Height of Image -->
+                  <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.41; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.41; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.41; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.41; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+
+                  <a-entity id="may_tn" class="screen2 clickable" geometry="primitive: plane; width:1.41; height:1" rotation="-90 90 180" 
+                            material="shader: flat; src:#may_img1; side: double; alphaTest:0.5; opacity:0" 
+                            animation__fadein="property: components.material.material.opacity; dur: 2000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: scale; dur: 2000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__fadein_r="property: components.material.material.opacity; dur: 2000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: scale; dur: 2000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                 <!-- Name -->
+                  <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 0.6 0.05 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__visible_r="property:object3D.visible; from: true; to: false dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: -90; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: 0.6 0.01 0.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                        <!-- Width of Image -->
+                        <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.55 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                   animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.55 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.55 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.55 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                        <!-- Height of Image -->
+                        <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.275; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0.275; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.275; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: -0.275; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                  <a-entity scale="0.5 0.5 0.5" >
+                       <!-- Content -->
+                         <a-text class="screen2" position="-0.4 0 0" rotation="-90 0 0" color="violet" scale="1.4 1.4 1.4"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="May Zhou" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                  animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>   
+                    </a-entity>
+                </a-entity> <!-- Name -->
+                <!-- Title -->
+                <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.5 0.1 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          
+                          animation__visible_r="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -0.5 0.1 0; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.1 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.1 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.1 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.z; dur: 1000; from:-0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.1 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.555; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.x; dur: 1000; from: 0.555; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.555; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.555; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                  <a-entity scale="0.5 0.5 0.5" >
+                      <a-entity class="screen3" geometry="primitive: plane; width:1; height:1" rotation="-90 0 0" material="color: violet; side:double; alphaTest:0.5; opacity:0"  
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0; to:0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 2.22 0.4 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 2.22 0.4 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                ></a-entity>
+                  
+                    <!-- Content -->
+                         <a-text class="screen2" position="-0.8 0.1 -0.01" rotation="-90 0 0" color="black" scale="3 3 3"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="Painteller" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                   animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>  
+                    </a-entity>
+
+                  </a-entity><!-- Title -->
+                
+              </a-entity> <!-- May -->
+              
+                <a-entity id="chelButton" class="screen"  
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 1.1 0.3 -1.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0;easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: 1.1 0.3 -1.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2_r="property: object3D.rotation.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                  <!-- Width of Image -->
+                  <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.89; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: 0.89; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.89; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: -0.89; to:-0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Height of Image -->
+                  <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.78; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.78; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.78; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.78; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+
+                  <a-entity id="chel_tn" class="screen2 clickable" geometry="primitive: plane; width:1.78; height:1" rotation="-90 90 180" 
+                            material="shader: gif; src:#chel_img1; side: double; alphaTest:0.5; opacity:0" 
+                            animation__fadein="property: components.material.material.opacity; dur: 2000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: scale; dur: 2000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__fadein_r="property: components.material.material.opacity; dur: 2000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: scale; dur: 2000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                 <!-- Name -->
+                  <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: 0.6 0.01 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                          animation__visible_r="property:object3D.visible; from: true; to: false dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: -90; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: 0.6 0.01 0.5; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                        <!-- Width of Image -->
+                        <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.7 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                   animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.7 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                  animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.7 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.7 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                        <!-- Height of Image -->
+                        <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0.35; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+                        <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                  animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.35; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: -0.35; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-entity>
+
+                  <a-entity scale="0.5 0.5 0.5" >
+                       <!-- Content -->
+                         <a-text class="screen2" position="-0.4 0 0" rotation="-90 0 0" color="violet" scale="1.4 1.4 1.4"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="Chel Chan" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                  animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>   
+                    </a-entity>
+                </a-entity> <!-- Name -->
+                <!-- Title -->
+                <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.5 0.1 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          
+                          animation__visible_r="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -0.5 0.1 0; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.5 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.5 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.5 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.5 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.752; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.x; dur: 1000; from: 0.752; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.752; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.752; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                  <a-entity scale="0.5 0.5 0.5" >
+                      <a-entity class="screen3" geometry="primitive: plane; width:1; height:1" rotation="-90 0 0" material="color: violet; side:double; alphaTest:0.5; opacity:0"  
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0; to:0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 3.02 0.4 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 3.02 0.4 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                ></a-entity>
+                  
+                    <!-- Title -->
+                         <a-text class="screen2" position="-1.25 0.1 -0.01" rotation="-90 0 0" color="black" scale="3 3 3"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="Foreign Lands," crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                   animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>  
+                    
+                    </a-entity>
+
+                  </a-entity><!-- Title -->
+                  <!-- Title 2 -->
+                <a-entity class="info" rotation="0 -90 0" visible="false"
+                          animation__visible="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: position; dur: 1000; from: 0 0 0; to: -0.72 0.1 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          
+                          animation__visible_r="property:object3D.visible; from: false; to: true dur: 1000; easing: easeInSine; autoplay: false"
+                          animation__rise_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split_r="property: object3D.position.x; dur: 1000; from: 0 ; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: -90; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: position; dur: 1000; from: -0.72 0.1 0.1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.4 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.1; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.4 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 1.4 0.5 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.z; dur: 1000; from: -0.1; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 1.4 0.5 0.5; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.702; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.x; dur: 1000; from: 0.702; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.702; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 0.5 0.5 0.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.702; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: scale; dur: 1000; from: 0.5 0.5 0.2; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                  <a-entity scale="0.5 0.5 0.5" >
+                      <a-entity class="screen3" geometry="primitive: plane; width:1; height:1" rotation="-90 0 0" material="color: violet; side:double; alphaTest:0.5; opacity:0"  
+                                  animation__move="property: object3D.position.x; dur: 1000; from: 0; to:0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale="property: scale; dur: 1000; from: 1 1 1; to: 2.81 0.4 1 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                  animation__move_r="property: object3D.position.x; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  animation__scale_r="property: scale; dur: 1000; from: 2.81 0.4 1; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                ></a-entity>
+                  
+                    <!-- Title -->
+                         <a-text class="screen2" position="-1.17 0.1 -0.01" rotation="-90 0 0" color="black" scale="3 3 3"  width="3" anchor="left" negate="false" opacity="0"
+                                    value="Familiar Stars" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                                   animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                 
+                                   animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                                   animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                  ></a-text>  
+                    
+                    </a-entity>
+
+                  </a-entity><!-- Title -->
+                
+              </a-entity> <!-- Chel -->
+              
+              <a-entity id="logo" class="screen"        
+                          animation__split="property: object3D.position.y; dur: 1000; from: 0; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate="property: object3D.rotation.y; dur: 100; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2="property: object3D.position.y; dur: 100; from: 0.1; to: 0.1; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2="property: object3D.rotation.y; dur: 100; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                        
+                          animation__split_r="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate_r="property: object3D.rotation.y; dur: 100; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__split2_r="property: object3D.position.y; dur: 100; from: 0.1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          animation__rotate2_r="property: object3D.rotation.y; dur: 100; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                          >
+                  
+                  <!-- Width of Image -->
+                  <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                            animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                
+                  <!-- Height of Image -->
+                  <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                            animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: object3D.scale.z; dur: 1000; from:1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__move_r="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            ></a-entity>
+                  <!-- Cat Gif and Title-->
+                  <a-entity class="screen2" geometry="primitive: plane; width:1; height:1" rotation="-90 90 180" material="shader: gif; src:#catGif; side: double; alphaTest:0.5; opacity:0" 
+                            animation__fadein="property: components.material.material.opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale="property: scale; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                            
+                            animation__fadein_r="property: components.material.material.opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            animation__scale_r="property: scale; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                            >
+                   
+                     <a-text id="categoryText" class="screen2" position="-0.5 0 0.1" color="white" scale="1.9 1.9 1.9"  width="2" anchor="left" negate="false" opacity="0"
+                                value="Culture" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                               animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                               animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                             
+                               animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                               animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                      ></a-text>    
+                    <a-text id="categoryText" class="screen2" position="-0.5 -0.1 0.1" color="white" scale="1.9 1.9 1.9"  width="2" anchor="left" negate="false" opacity="0"
+                                value="Studies" crossorigin="Anonymous" font="https://rawcdn.githack.com/sycrus/parallel_test/cd40bd2baa77a120ed3e93bbc003ece2caa8ed5c/assets/test/fonts/MSDF/EduFavoritExpanded-Bold-msdf/EduFavoritExpanded-Bold-msdf.json"
+                               animation__fadein="property: opacity; dur: 1000; from: 0; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                               animation__scale="property: scale; dur: 1000; from: 0 0 0; to: 1 1 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                             
+                               animation__fadein_r="property: opacity; dur: 1000; from: 1; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                               animation__scale_r="property: scale; dur: 1000; from: 1 1 1; to: 0 0 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                      ></a-text>            
+      
+                </a-entity>
+                <a-entity id="addFrames">
+                   <!-- Frame 2 -->
+                    <a-entity class="screen"  
+                              animation__split="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2="property: object3D.position.y; dur: 1000; from: 0; to: 0.12; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              
+                              animation__split_r="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2_r="property: object3D.position.y; dur: 1000; from: 0.12; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              >
+
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.6; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.2; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.6; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.2; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1 ; to: 1.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.6; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.2 ; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1 ; to: 1.2; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                 animation__move_r="property: object3D.position.x; dur: 1000; from: -0.6; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.2 ; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                  </a-entity> <!-- Frame 2 -->
+                    <!-- Frame 3 -->
+                    <a-entity class="screen"  
+                              animation__split="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2="property: object3D.position.y; dur: 1000; from: 0; to: 0.15; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              
+                              animation__split_r="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2_r="property: object3D.position.y; dur: 1000; from: 0.15; to: 0 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              >
+
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from:0.5; to:0.7; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.7; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.4; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to:-0.7; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.4;  easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.7; to:  -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.4; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.7; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.7; to: 0.5 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.4; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.7; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.7; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.4; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                  </a-entity> <!-- Frame 3 -->
+                    <!-- Frame 4 -->
+                    <a-entity class="screen"  
+                              animation__split="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2="property: object3D.position.y; dur: 1000; from: 0; to: 0.3; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              
+                              animation__split_r="property: object3D.position.y; dur: 1000; from:  0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2_r="property: object3D.position.y; dur: 1000; from: 0.3; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0;  easing: easeInOutSine; loop: false; autoplay: false;"
+                              >
+
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01; height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.6 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.8; to:0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.6; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.6 ; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.8; to:-0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.6 ; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01; height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.8; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.6; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01; height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.6; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.8; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.6; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      
+                      
+                  </a-entity> <!-- Frame 4 -->
+                     <!-- Frame 5 -->
+                    <a-entity class="screen"  
+                              animation__split="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2="property: object3D.position.y; dur: 1000; from: 0; to: 0.4; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              
+                              animation__split_r="property: object3D.position.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__split2_r="property: object3D.position.y; dur: 1000; from: 0.4; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              animation__rotate2_r="property: object3D.rotation.y; dur: 1000; from: 0; to: 0; easing: easeInOutSine; loop: false; autoplay: false;"
+                              >
+
+                      <!-- Width of Image -->
+                      <a-entity class="frame" position="0 0 0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: 0.5; to: 0.9; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: 0.9; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.8 ; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="0 0 -0.5" geometry="primitive: box; width: 1.01;height: 0.01; depth:0.01" material="color: violet;"
+                                animation__move="property: object3D.position.z; dur: 1000; from: -0.5; to: -0.9; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.x; dur: 1000; from: 1; to: 1.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.z; dur: 1000; from: -0.9; to:-0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.x; dur: 1000; from: 1.8; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+
+                      <!-- Height of Image -->
+                      <a-entity class="frame" position="0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: 0.5; to: 0.9; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: 0.9; to: 0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.8; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                      <a-entity class="frame" position="-0.5 0 0" geometry="primitive: box; width: 0.01;height: 0.01; depth:1.01" material="color: violet;"
+                                animation__move="property: object3D.position.x; dur: 1000; from: -0.5; to: -0.9; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale="property: object3D.scale.z; dur: 1000; from: 1; to: 1.8; easing: easeInOutSine; loop: false; autoplay: false;"
+                                
+                                animation__move_r="property: object3D.position.x; dur: 1000; from: -0.9; to: -0.5; easing: easeInOutSine; loop: false; autoplay: false;"
+                                animation__scale_r="property: object3D.scale.z; dur: 1000; from: 1.8; to: 1; easing: easeInOutSine; loop: false; autoplay: false;"
+                                ></a-entity>
+                    </a-entity> <!-- Frame 5 -->
+                </a-entity> <!-- AddFrames -->
+                          
+              </a-entity> <!-- Logo group -->
+                       
+             </a-entity> <!-- Cube group -->
+     
+            </a-entity> <!-- Voices Layout -->
+      
+      </a-marker>
+    
+      <a-entity camera position="0 0 0" look-controls="false">
+        <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable; useWorldCoordinates: false;"></a-entity>
+        </a-entity>
+    </a-scene>
+    
+    <div style="position: fixed; top: 0px; width:100%; text-align: center;z-index: 1;overflow: hidden opacity:1">
+        <div id="instructionBox" style="position: fixed; max-width: 90%; top:50%; left:50%; opacity:1">
+          <img id="instruction1" src="https://rawcdn.githack.com/sycrus/parallel21/8bf4373b5c2e97dfbfe9c6ecc84c9a2f5a02c4a8/assets/branding/ui/intro1.png"
+               style="position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);cursor: pointer; opacity:1">
+          <img id="instruction2" src="https://rawcdn.githack.com/sycrus/parallel21/8bf4373b5c2e97dfbfe9c6ecc84c9a2f5a02c4a8/assets/branding/ui/intro2.png"
+               style="position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);cursor: pointer; opacity:1">
+          <img id="instruction1-X" src="https://rawcdn.githack.com/sycrus/parallel21/b2899bf39cbbf8d224f8a3f25dff1d8b76ac14a1/assets/branding/ui/instructionX.png"
+              style=" max-width: 80%;  transform: translate(380%, -825%);cursor: pointer; opacity:1">
+        </div>
+      
+      <img id="infoButton" src="https://rawcdn.githack.com/sycrus/parallel21/b2899bf39cbbf8d224f8a3f25dff1d8b76ac14a1/assets/branding/ui/info.png"
+            style="position: fixed; max-width: 20%; top: 5%; left: 7%; transform: translate(-50%, -50%);cursor: pointer; opacity:1">
+
+    </div>
+  </body>
+    
+  
+</html>
